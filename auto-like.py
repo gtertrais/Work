@@ -22,10 +22,10 @@ def autoLike(header):
     r = requests.get(API_URL + "user/recs", headers=header)
     if r.status_code == 200:
         data = json.loads(r.text)
-        print(data['results'])
+        print("==== DISLIKING ====")
         with open("profile.csv", "a") as outfile:
             for profile in data["results"]:
-                like_r = requests.get(API_URL + "pass/" + profile["_id"], headers=header) if profile["gender"] == 0 else requests.get(
+                like_r = requests.get(API_URL + "like/" + profile["_id"], headers=header) if profile["gender"] == 1 and int(profile["birth_date"][0:4]) < 1985 else requests.get(
                     API_URL + "pass/" + profile["_id"], headers=header)
                 if like_r.status_code == 200:
                     if profile["name"] == "Tinder Team":
@@ -75,7 +75,7 @@ args = parser.parse_args()
 API_URL = "https://api.gotinder.com/"
 
 # You can get this token by sniffing your phone's traffic
-TINDER_TOKEN = ""
+TINDER_TOKEN = "fcaa6bb1-e6d9-485f-b851-21ce73bcc817"
 
 # Tinder requests
 if TINDER_TOKEN == "":
