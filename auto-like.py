@@ -7,6 +7,9 @@ import random
 import json
 from io import StringIO
 import urllib.request
+import os
+from dotenv import load_dotenv
+load_dotenv()
 
 
 def getUserInfo(header, user):
@@ -75,7 +78,7 @@ args = parser.parse_args()
 API_URL = "https://api.gotinder.com/"
 
 # You can get this token by sniffing your phone's traffic
-TINDER_TOKEN = "df90a8c9-790d-475c-893d-7c88764b93ed"
+TINDER_TOKEN = os.getenv("TINDER_TOKEN")
 
 # Tinder requests
 if TINDER_TOKEN == "":
