@@ -75,7 +75,7 @@ args = parser.parse_args()
 API_URL = "https://api.gotinder.com/"
 
 # You can get this token by sniffing your phone's traffic
-TINDER_TOKEN = ""
+TINDER_TOKEN = "df90a8c9-790d-475c-893d-7c88764b93ed"
 
 # Tinder requests
 if TINDER_TOKEN == "":
