@@ -8,6 +8,7 @@ import json
 from io import StringIO
 import urllib.request
 import os
+from datetime import datetime
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -23,9 +24,9 @@ def getUserInfo(header, user):
 
 def autoLike(header):
     r = requests.get(API_URL + "user/recs", headers=header)
+    currentTime = datetime.now()
     if r.status_code == 200:
         data = json.loads(r.text)
-        print("==== DISLIKING ====")
         with open("profile.csv", "a") as outfile:
             for profile in data["results"]:
                 like_r = requests.get(API_URL + "like/" + profile["_id"], headers=header) if profile["gender"] == 1 and int(profile["birth_date"][0:4]) > 1985 else requests.get(
@@ -34,16 +35,30 @@ def autoLike(header):
                     if profile["name"] == "Tinder Team":
                         print("[!] You ran out of likes")
                         return 1
-                    age = str(date.today().year -
-                              int(profile["birth_date"][0:4]))
-                    gender = "female"
-                    imagePath = '/female/'
-
+                    age = int(str(date.today().year -
+                                  int(profile["birth_date"][0:4])))
+                    gender = ""
                     i = 0
                     if profile["gender"] == 0:
-                        imagePath = '/male/'
                         gender = "male"
-                    message = profile["name"]+' '+gender+' '+age + \
+                        if age <= 35:
+                            imagePath = '/male_18-35/'
+                        if age > 35 and age <= 55:
+                            imagePath = '/male_36-55/'
+                        elif age > 55:
+                            imagePath = '/male_56+/'
+                    elif profile["gender"] == 1:
+                        gender = "female"
+                        if age <= 35:
+                            imagePath = '/female_18-35/'
+                        if age > 35 and age <= 55:
+                            imagePath = '/female_36-55/'
+                        elif age > 55:
+                            print(age)
+                            imagePath = '/female_56+/'
+                    else:
+                        print('coucou')
+                    message = profile["name"]+' '+gender+' '+str(age) + \
                         " years old"+' - ' + \
                         str(len(profile["photos"]))+' photo(s)'
                     print(message)
@@ -52,10 +67,11 @@ def autoLike(header):
                         randomVal = random.randint(10000, 99999)
                         print("Downloading photo " + str(i+1))
                         urllib.request.urlretrieve(
-                            photo, "./images"+imagePath+str(profile["gender"])+'-'+profile["name"]+'-'+age+'_'+str(i+1)+str(randomVal)+'.jpg')
+                            photo, "./images"+imagePath+str(profile["gender"])+'-'+profile["name"]+'-'+str(age)+'_'+str(i+1)+str(randomVal)+'.jpg')
                         i = i + 1
-                    line = profile["name"]+" ,"+age + \
-                        ','+profile["photos"][0]["url"]
+                    line = profile["name"]+" ," + gender + "," + \
+                        str(age) + ','+str(currentTime) + \
+                        ',' + str(len(profile["photos"]))
                     outfile.write(line + "\n")
                     s = StringIO(line)
                 else:

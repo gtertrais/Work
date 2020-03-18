@@ -3,6 +3,7 @@ import sys
 import glob
 from PIL import Image
 import os
+import shutil  
 
 
 images=glob.glob("images/" + "**/*.jpg", recursive=True)
