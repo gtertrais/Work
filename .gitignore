@@ -75,18 +75,18 @@ target/
 # celery beat schedule file
 celerybeat-schedule
 
-images/female_56+/*
-images/female_36-55/*
-images/female_18-35/*
-images/male_56+/*
-images/male_36-55/*
-images/male_18-35/*
-aligned/female_56+/*
-aligned/female_36-55/*
-aligned/female_18-35/*
-aligned/male_56+/*
-aligned/male_36-55/*
-aligned/male_18-35/*
+images/female_56+/
+images/female_36-55/
+images/female_18-35/
+images/male_56+/
+images/male_36-55/
+images/male_18-35/
+aligned/female_56+/
+aligned/female_36-55/
+aligned/female_18-35/
+aligned/male_56+/
+aligned/male_36-55/
+aligned/male_18-35/
 # dotenv
 .env
 
